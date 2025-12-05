@@ -18,11 +18,14 @@ public class LoginFrame extends JFrame {
         this.userService = us;
         this.resourceService = rs;
         this.requestService = rqs;
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400,200);
+        setSize(400, 200);
         setLocationRelativeTo(null);
+
         init();
     }
+
 
     private void init() {
         JPanel p = new JPanel(new GridLayout(4,2,5,5));
@@ -38,16 +41,33 @@ public class LoginFrame extends JFrame {
         add(p);
 
         loginBtn.addActionListener(e -> {
-            try {
-                User u = userService.login(idField.getText().trim(), new String(pwField.getPassword()));
-                JOptionPane.showMessageDialog(this, "Welcome " + u.getName());
-                DashboardFrame df = new DashboardFrame(userService, resourceService, requestService, u);
-                df.setVisible(true);
+        try {
+            String id = idField.getText().trim();
+            String pw = new String(pwField.getPassword());
+
+            // HARD-CODED ADMIN LOGIN
+            if (id.equals("admin") && pw.equals("admin@123")) {
+                User admin = new User("admin", "System Administrator", "admin@example.com", "admin@123");
+                JOptionPane.showMessageDialog(this, "Welcome System Administrator");
+                AdminDashboardFrame ad = new AdminDashboardFrame(userService, resourceService, requestService);
+                ad.setVisible(true);
                 this.dispose();
-            } catch (UserNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Login failed: " + ex.getMessage());
+                return;
             }
-        });
+
+            // NORMAL USER LOGIN
+            User u = userService.login(id, pw);
+            JOptionPane.showMessageDialog(this, "Welcome " + u.getName());
+            UserDashboardFrame df = new UserDashboardFrame(userService, resourceService, requestService, u);
+            df.setVisible(true);
+            this.dispose();
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Login failed: " + ex.getMessage());
+        }
+    });
+
+
 
         regBtn.addActionListener(e -> {
             RegisterFrame rf = new RegisterFrame(userService);

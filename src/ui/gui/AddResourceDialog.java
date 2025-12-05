@@ -2,10 +2,13 @@ package ui.gui;
 
 import service.ResourceService;
 import javax.swing.*;
+
+import model.User;
+
 import java.awt.*;
 
 public class AddResourceDialog extends JDialog {
-    public AddResourceDialog(JFrame owner, ResourceService rs) {
+    public AddResourceDialog(JFrame owner, ResourceService rs, User currentUser) {
         super(owner, "Add Resource", true);
         setSize(350,200);
         setLocationRelativeTo(owner);
@@ -21,7 +24,14 @@ public class AddResourceDialog extends JDialog {
         add(p);
         add.addActionListener(e -> {
             try {
-                rs.addItem(id.getText().trim(), name.getText().trim(), Integer.parseInt(qty.getText().trim()));
+                rs.addItem(
+                    id.getText().trim(),
+                    name.getText().trim(),
+                    Integer.parseInt(qty.getText().trim()),
+                    currentUser.getId(),
+                    currentUser.getName()
+                );
+
                 JOptionPane.showMessageDialog(this, "Added");
                 this.dispose();
             } catch (Exception ex) {

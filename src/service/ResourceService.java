@@ -1,6 +1,7 @@
 package service;
 
 import model.Item;
+import model.User;
 import data.DataStore;
 import exceptions.InvalidInputException;
 import exceptions.ItemNotAvailableException;
@@ -20,21 +21,29 @@ public class ResourceService {
         this.items = store.loadItems();
     }
 
-    public Item addItem(String id, String name, int qty) throws InvalidInputException {
-        if (!ITEM_NAME.matcher(name).matches()) throw new InvalidInputException("Invalid item name");
-        if (qty <= 0) throw new InvalidInputException("Quantity must be positive");
+    public Item addItem(String id, String name, int qty, String addedByUserId, String addedByUserName)
+            throws InvalidInputException {
+
+        if (!ITEM_NAME.matcher(name).matches())
+            throw new InvalidInputException("Invalid item name");
+
+        if (qty <= 0)
+            throw new InvalidInputException("Quantity must be positive");
+
         if (items.containsKey(id)) {
+            // If existing, just increase qty — do NOT overwrite addedBy fields
             Item it = items.get(id);
             it.setQuantity(it.getQuantity() + qty);
             store.saveItems(items);
             return it;
-        } else {
-            Item it = new Item(id, name, qty);
-            items.put(id, it);
-            store.saveItems(items);
-            return it;
         }
+
+        Item it = new Item(id, name, qty, addedByUserId, addedByUserName);
+        items.put(id, it);
+        store.saveItems(items);
+        return it;
     }
+
 
     public void reduceQuantity(String id) throws ItemNotAvailableException {
         Item it = items.get(id);
@@ -75,4 +84,30 @@ public class ResourceService {
     }
 
     public Map<String, Item> internalMap() { return items; }
+
+    public void deleteItem(String itemId, User requester, RequestService requestService) throws Exception {
+        Item it = items.get(itemId);
+        if (it == null)
+            throw new Exception("Item not found.");
+
+        // If not admin, user must be the creator
+        if (!"admin".equals(requester.getId())) {
+            if (!Objects.equals(it.getAddedByUserId(), requester.getId())) {
+                throw new Exception("You can only delete items that you added.");
+            }
+        }
+
+        // Block deletion if item is currently borrowed
+        boolean borrowed = requestService.listRequests()
+            .stream()
+            .anyMatch(r -> r.getItemId().equals(itemId) && r.isApproved() && !r.isReturned());
+
+        if (borrowed) {
+            throw new Exception("This resource is currently borrowed and cannot be deleted.");
+        }
+
+        items.remove(itemId);
+        store.saveItems(items);
+    }
+
 }
