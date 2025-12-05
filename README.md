@@ -4,7 +4,7 @@
 
 ---
 
-## 🎯 **Overview**
+## **Overview**
 
 The **Smart Resource Sharing System** is a Java-based desktop application designed to simplify the sharing and borrowing of academic resources within a campus environment.
 
@@ -21,9 +21,9 @@ This project is designed to demonstrate **clean architecture**, **object-oriente
 
 ---
 
-## 🧠 **Key Features**
+## **Key Features**
 
-### 🔐 **1. User Authentication**
+### **1. User Authentication**
 
 * Register new users
 * Login with regex-validated credentials
@@ -31,7 +31,7 @@ This project is designed to demonstrate **clean architecture**, **object-oriente
 
 ---
 
-### 📦 **2. Resource Management**
+### **2. Resource Management**
 
 Users can:
 
@@ -49,7 +49,7 @@ Uses:
 
 ---
 
-### ⏳ **3. Borrowing System with Date Handling**
+### **3. Borrowing System with Date Handling**
 
 Uses **java.time API** for:
 
@@ -60,7 +60,7 @@ Uses **java.time API** for:
 
 ---
 
-### 🔁 **4. Multithreading**
+### **4. Multithreading**
 
 Background threads handle:
 
@@ -70,7 +70,7 @@ Background threads handle:
 
 ---
 
-### 💾 **5. File I/O + Serialization**
+### **5. File I/O + Serialization**
 
 Persistent storage using:
 
@@ -89,7 +89,7 @@ Uses:
 
 ---
 
-### 🖥️ **6. Dual Interface**
+### **6. Dual Interface**
 
 #### **A. Console Version (CLI)**
 
@@ -109,7 +109,7 @@ Uses:
 
 ---
 
-## 🏗️ **Tech Stack / Concepts Used**
+## **Tech Stack / Concepts Used**
 
 | Category                  | Concepts                                                                |
 | ------------------------- | ----------------------------------------------------------------------- |
@@ -127,7 +127,7 @@ Uses:
 
 ---
 
-## 🎓 **Learning Outcomes**
+## **Learning Outcomes**
 
 By completing this project, we demonstrated skills in:
 
@@ -149,3 +149,17 @@ Perfect for **academic submission**, **viva**, **resume**, and **GitHub portfoli
 Developed as part of the Object Oriented Programming Curriculum (Academic Year 2025–26).
 
 ---
+
+## Author
+
+**Adharsh Baswaraj** – [adharshbaswaraj@gmail.com]  
+GitHub: [https://github.com/adharsh0713]
+
+**Koushik Jonnala** – [koushikjonnala@gmail.com]  
+GitHub: [https://github.com/koushik632]
+
+---
+
+## **License**
+
+This project is licensed under the [MIT License](LICENSE) – see the LICENSE file for details.
